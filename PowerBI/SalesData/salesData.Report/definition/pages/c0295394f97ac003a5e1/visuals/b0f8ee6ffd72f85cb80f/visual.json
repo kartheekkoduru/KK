@@ -1,0 +1,75 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.5.0/schema.json",
+  "name": "b0f8ee6ffd72f85cb80f",
+  "position": {
+    "x": 93.164556962025316,
+    "y": 34.430379746835442,
+    "z": 1,
+    "height": 309.873417721519,
+    "width": 546.83544303797464,
+    "tabOrder": 1
+  },
+  "visual": {
+    "visualType": "pieChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Dataset_Sales"
+                    }
+                  },
+                  "Property": "categoryname"
+                }
+              },
+              "queryRef": "Dataset_Sales.categoryname",
+              "nativeQueryRef": "categoryname",
+              "active": true
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Dataset_Sales"
+                    }
+                  },
+                  "Property": "TotProfit"
+                }
+              },
+              "queryRef": "Dataset_Sales.TotProfit",
+              "nativeQueryRef": "TotProfit"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "Dataset_Sales"
+                  }
+                },
+                "Property": "TotProfit"
+              }
+            },
+            "direction": "Descending"
+          }
+        ],
+        "isDefaultSort": true
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

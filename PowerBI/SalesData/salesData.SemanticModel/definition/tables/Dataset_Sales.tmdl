@@ -1,0 +1,162 @@
+table Dataset_Sales
+	lineageTag: 873006e6-2dc0-49b5-a658-7c32c6d28ac2
+
+	measure TotRevenue = SUM(Dataset_Sales[ProductPrice])  * SUM(Dataset_Sales[qty])
+		lineageTag: bab4af3f-f08a-4e5a-9904-5fb843539112
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure TotSpent = SUM(Dataset_Sales[CostPrice]) * SUM(Dataset_Sales[qty])
+		lineageTag: 8c2d7cf1-ecba-48c6-9e5e-461703290cca
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure TotDiscount = SUM(Dataset_Sales[discount]) * SUM(Dataset_Sales[qty])
+		lineageTag: 1600c4ab-37eb-43ba-b9e9-86bd263f28e1
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure TotProfit = [TotRevenue] - [TotSpent] - [TotDiscount]
+		lineageTag: e20fd5d8-a345-4348-a597-d1b0b75a4fe1
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column categoryid
+		dataType: int64
+		isNullable: false
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: 853bd074-8592-4fbd-a272-c936a5be1127
+		summarizeBy: sum
+		sourceColumn: categoryid
+
+		annotation SummarizationSetBy = Automatic
+
+	column categoryname
+		dataType: string
+		isNullable: false
+		sourceProviderType: nvarchar(15)
+		lineageTag: 061cd797-e9ef-486c-a9c5-82a98478cb1c
+		summarizeBy: none
+		sourceColumn: categoryname
+
+		annotation SummarizationSetBy = Automatic
+
+	column ProductID
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: b497810a-f23d-46f4-8230-118c2be78a60
+		summarizeBy: count
+		sourceColumn: ProductID
+
+		annotation SummarizationSetBy = Automatic
+
+	column productname
+		dataType: string
+		sourceProviderType: nvarchar(40)
+		lineageTag: f9a18b8c-48a4-45f6-8f45-f91c7331cc5a
+		summarizeBy: none
+		sourceColumn: productname
+
+		annotation SummarizationSetBy = Automatic
+
+	column ProductPrice
+		dataType: double
+		sourceProviderType: money
+		lineageTag: 8cf53eef-6b82-4462-a2db-859b60386b9a
+		summarizeBy: sum
+		sourceColumn: ProductPrice
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column OrderID
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: 94b5ea78-8c4f-4396-813d-6bfd3bb88757
+		summarizeBy: count
+		sourceColumn: OrderID
+
+		annotation SummarizationSetBy = Automatic
+
+	column CostPrice
+		dataType: double
+		sourceProviderType: money
+		lineageTag: 8064f5fc-9994-4e09-a47f-86bfbfbb10e3
+		summarizeBy: sum
+		sourceColumn: CostPrice
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column discount
+		dataType: double
+		sourceProviderType: decimal(4, 3)
+		lineageTag: 2957e744-ba4c-49f8-a587-759ab1186193
+		summarizeBy: sum
+		sourceColumn: discount
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column qty
+		dataType: int64
+		formatString: 0
+		sourceProviderType: smallint
+		lineageTag: d5e8cd1a-d380-4f9d-a2f3-e833360b2a89
+		summarizeBy: sum
+		sourceColumn: qty
+
+		annotation SummarizationSetBy = Automatic
+
+	column OrderDate
+		dataType: dateTime
+		formatString: Long Date
+		sourceProviderType: date
+		lineageTag: 4230ec4b-94cc-47d5-b46f-a862f5f95924
+		summarizeBy: none
+		sourceColumn: OrderDate
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column RequiredDate
+		dataType: dateTime
+		formatString: General Date
+		sourceProviderType: date
+		lineageTag: 0f20f712-6cce-4194-9c05-09f58a54db57
+		summarizeBy: none
+		sourceColumn: RequiredDate
+
+		annotation SummarizationSetBy = Automatic
+
+	column ShippedDate
+		dataType: dateTime
+		formatString: General Date
+		sourceProviderType: date
+		lineageTag: 96331743-dcb0-4bc8-8e47-666b8cc56150
+		summarizeBy: none
+		sourceColumn: ShippedDate
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Dataset_Sales = m
+		mode: directQuery
+		source =
+				let
+				    Source = Sql.Database("HIMAKARTHIKEYA\KKMSSQL", "Sales", [Query="SELECT C.categoryid,C.categoryname,P.ProductID,P.productname,P.unitprice AS ProductPrice#(lf),OD.OrderID,OD.unitprice AS CostPrice,OD.discount,OD.qty#(lf),CONVERT(DATE,O.orderdate) AS OrderDate,CONVERT(DATE,O.requireddate) AS RequiredDate,CONVERT(DATE,o.shippeddate) AS ShippedDate#(lf)FROM  Production.Categories C#(lf)LEFT JOIN  Production.Products P ON C.categoryid = P.categoryid#(lf)LEFT JOIN Sales.OrderDetails OD ON OD.productid = P.productid#(lf)LEFT JOIN Sales.Orders O ON O.orderid = OD.orderid#(lf)"])
+				in
+				    Source
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

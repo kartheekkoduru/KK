@@ -1,0 +1,54 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.6.0/schema.json",
+  "name": "8e81845784a0a482bbcc",
+  "position": {
+    "x": 918.1024667931689,
+    "y": 0,
+    "z": 2,
+    "height": 257.45730550284628,
+    "width": 273.64958886780522,
+    "tabOrder": 2
+  },
+  "visual": {
+    "visualType": "slicer",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Dataset_Sales"
+                    }
+                  },
+                  "Property": "categoryname"
+                }
+              },
+              "queryRef": "Dataset_Sales.categoryname",
+              "nativeQueryRef": "categoryname",
+              "active": true
+            }
+          ]
+        }
+      }
+    },
+    "objects": {
+      "data": [
+        {
+          "properties": {
+            "mode": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Basic'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

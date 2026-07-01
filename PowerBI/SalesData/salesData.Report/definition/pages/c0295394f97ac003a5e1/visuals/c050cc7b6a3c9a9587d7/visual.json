@@ -1,0 +1,115 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.5.0/schema.json",
+  "name": "c050cc7b6a3c9a9587d7",
+  "position": {
+    "x": 480,
+    "y": 344.30379746835439,
+    "z": 0,
+    "height": 376.70886075949363,
+    "width": 753.41772151898726,
+    "tabOrder": 0
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Dataset_Sales"
+                    }
+                  },
+                  "Property": "categoryname"
+                }
+              },
+              "queryRef": "Dataset_Sales.categoryname",
+              "nativeQueryRef": "categoryname"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Dataset_Sales"
+                    }
+                  },
+                  "Property": "TotRevenue"
+                }
+              },
+              "queryRef": "Dataset_Sales.TotRevenue",
+              "nativeQueryRef": "TotRevenue"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Dataset_Sales"
+                    }
+                  },
+                  "Property": "TotSpent"
+                }
+              },
+              "queryRef": "Dataset_Sales.TotSpent",
+              "nativeQueryRef": "TotSpent"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Dataset_Sales"
+                    }
+                  },
+                  "Property": "TotProfit"
+                }
+              },
+              "queryRef": "Dataset_Sales.TotProfit",
+              "nativeQueryRef": "TotProfit"
+            }
+          ]
+        }
+      }
+    },
+    "objects": {
+      "columnHeaders": [
+        {
+          "properties": {
+            "fontFamily": {
+              "expr": {
+                "Literal": {
+                  "Value": "'''Segoe UI Semibold'', wf_segoe-ui_semibold, helvetica, arial, sans-serif'"
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "14D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "values": [
+        {
+          "properties": {
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "13D"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}
