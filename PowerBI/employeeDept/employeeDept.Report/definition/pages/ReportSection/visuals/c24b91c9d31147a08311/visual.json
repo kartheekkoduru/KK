@@ -1,0 +1,132 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.6.0/schema.json",
+  "name": "c24b91c9d31147a08311",
+  "position": {
+    "x": 298.58497312510093,
+    "y": 187.08805278091768,
+    "z": 0,
+    "height": 204.09605757918294,
+    "width": 459.21612955316158,
+    "tabOrder": 0
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "DEPT"
+                    }
+                  },
+                  "Property": "DEPTNAME"
+                }
+              },
+              "queryRef": "DEPT.DEPTNAME",
+              "nativeQueryRef": "DEPTNAME"
+            },
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "EMP"
+                        }
+                      },
+                      "Property": "EMPNO"
+                    }
+                  },
+                  "Function": 5
+                }
+              },
+              "queryRef": "Sum(EMP.EMPNO)",
+              "nativeQueryRef": "Count of EMPNO"
+            },
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "EMP"
+                        }
+                      },
+                      "Property": "SAL"
+                    }
+                  },
+                  "Function": 1
+                }
+              },
+              "queryRef": "Sum(EMP.SAL)",
+              "nativeQueryRef": "Average of SAL"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "afdf030b32c138cd8136",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "DEPT"
+              }
+            },
+            "Property": "DEPTNAME"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "0af2f0f5d4a2e41b1d41",
+        "field": {
+          "Aggregation": {
+            "Expression": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "EMP"
+                  }
+                },
+                "Property": "EMPNO"
+              }
+            },
+            "Function": 5
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "33014d1781cf24221037",
+        "field": {
+          "Aggregation": {
+            "Expression": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "EMP"
+                  }
+                },
+                "Property": "SAL"
+              }
+            },
+            "Function": 1
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
+  }
+}

@@ -1,0 +1,89 @@
+table EMP
+	lineageTag: 89bd6009-241d-441b-a0ab-6a682cc36fdc
+
+	column EMPNO
+		dataType: int64
+		formatString: 0
+		lineageTag: c1676a49-5953-4287-9e57-6407ba02d7ad
+		summarizeBy: sum
+		sourceColumn: EMPNO
+
+		annotation SummarizationSetBy = Automatic
+
+	column ENAME
+		dataType: string
+		lineageTag: 4cdbf16d-c8d8-4aea-9cae-35bda035f933
+		summarizeBy: none
+		sourceColumn: ENAME
+
+		annotation SummarizationSetBy = Automatic
+
+	column JOB
+		dataType: string
+		lineageTag: adae7c3f-d75c-4a60-8196-6a11f2d9477c
+		summarizeBy: none
+		sourceColumn: JOB
+
+		annotation SummarizationSetBy = Automatic
+
+	column MGR
+		dataType: int64
+		formatString: 0
+		lineageTag: 795a87c0-a6d1-430e-86f6-783928a8e8b3
+		summarizeBy: sum
+		sourceColumn: MGR
+
+		annotation SummarizationSetBy = Automatic
+
+	column HIREDATE
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: a2d21f16-2d1c-4842-b509-0fa3accd9246
+		summarizeBy: none
+		sourceColumn: HIREDATE
+
+		variation Variation
+			isDefault
+			relationship: 7a68b788-b593-4078-88fe-ecab328ec09f
+			defaultHierarchy: LocalDateTable_a6f18878-af8c-4709-8a38-5004ca90f346.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column SAL
+		dataType: int64
+		formatString: 0
+		lineageTag: db263619-28b3-413d-b406-c55a615e67d3
+		summarizeBy: sum
+		sourceColumn: SAL
+
+		annotation SummarizationSetBy = Automatic
+
+	column COMM
+		dataType: int64
+		formatString: 0
+		lineageTag: abf6a0d9-7707-4d01-afab-1c16aaf5d3d3
+		summarizeBy: sum
+		sourceColumn: COMM
+
+		annotation SummarizationSetBy = Automatic
+
+	column DEPTNO
+		dataType: int64
+		formatString: 0
+		lineageTag: 60e45893-2a5b-49d7-b21d-f521a7fdef4a
+		summarizeBy: none
+		sourceColumn: DEPTNO
+
+		annotation SummarizationSetBy = Automatic
+
+	partition EMP-37f2f8a4-680f-4b97-a535-740e438d417d = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database("HIMAKARTHIKEYA\SQLEXPRESS", "Sales"),
+				    dbo_EMP = Source{[Schema="dbo",Item="EMP"]}[Data]
+				in
+				    dbo_EMP
+
+	annotation PBI_ResultType = Table
+

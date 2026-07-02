@@ -1,0 +1,39 @@
+table DEPT
+	lineageTag: 4d7aed7e-15e3-489e-86ae-2279547aa00a
+
+	column DEPTNAME
+		dataType: string
+		lineageTag: 028f24c7-9aca-4e7a-9103-0c3b3fd304db
+		summarizeBy: none
+		sourceColumn: DEPTNAME
+
+		annotation SummarizationSetBy = Automatic
+
+	column LOC
+		dataType: string
+		lineageTag: d69c86b1-fe59-48eb-acc4-c0096a860df1
+		summarizeBy: none
+		sourceColumn: LOC
+
+		annotation SummarizationSetBy = Automatic
+
+	column DEPTNO
+		dataType: int64
+		formatString: 0
+		lineageTag: cb179c85-d74f-458d-9687-347ba9079b1d
+		summarizeBy: none
+		sourceColumn: DEPTNO
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DEPT-45876964-6146-4600-9846-ef592cbc7973 = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database("HIMAKARTHIKEYA\SQLEXPRESS", "Sales"),
+				    dbo_DEPT = Source{[Schema="dbo",Item="DEPT"]}[Data]
+				in
+				    dbo_DEPT
+
+	annotation PBI_ResultType = Table
+
