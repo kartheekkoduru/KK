@@ -1,0 +1,9 @@
+relationship 7a68b788-b593-4078-88fe-ecab328ec09f
+	joinOnDateBehavior: datePartOnly
+	fromColumn: EMP.HIREDATE
+	toColumn: LocalDateTable_a6f18878-af8c-4709-8a38-5004ca90f346.Date
+
+relationship f5b562b0-92e2-49e0-8c32-086c7df6a3ea
+	fromColumn: EMP.DEPTNO
+	toColumn: DEPT.DEPTNO
+
