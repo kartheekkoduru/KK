@@ -4,6 +4,11 @@ on:
   push:
     branches:
       - dev  # Triggers when changes are pushed or merged to the dev branch
+    paths:
+      - '**.pbip'      # Triggers if Power BI project definition files change
+      - '**.pbit'      # Triggers if templates change
+      - '**.pbidataset' # Triggers if dataset definitions change
+      - '**.pbireport' # Triggers if report definitions change
 
 env:
   # Paste your actual GUIDs extracted from Step 1 here
