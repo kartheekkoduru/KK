@@ -1,0 +1,64 @@
+name: Auto Deploy Power BI Dev to Prod
+
+on:
+  push:
+    branches:
+      - dev  # Triggers when changes are pushed or merged to the dev branch
+    paths:
+      - '**.pbip'      # Triggers if Power BI project definition files change
+      - '**.pbit'      # Triggers if templates change
+      - '**.pbidataset' # Triggers if dataset definitions change
+      - '**.pbireport' # Triggers if report definitions change
+
+env:
+  # Paste your actual GUIDs extracted from Step 1 here
+  DEV_WORKSPACE_ID: "a588a39b-6ee5-4b89-93b7-d4928f5638f0"
+  PIPELINE_ID: "c3aa276e-3250-4e6f-bd73-5814fa8b72c8"
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Authenticate to Azure and Get Bearer Token
+        id: login
+        run: |
+          TOKEN_RESPONSE=$(curl -X POST -d "grant_type=client_credentials&client_id=${{ secrets.AZURE_CLIENT_ID }}&client_secret=${{ secrets.AZURE_CLIENT_SECRET }}&resource=https://windows.net" \
+            https://microsoftonline.com{{ secrets.AZURE_TENANT_ID }}/oauth2/token)
+          
+          ACCESS_TOKEN=$(echo $TOKEN_RESPONSE | jq -r '.access_token')
+          echo "::add-mask::$ACCESS_TOKEN"
+          echo "PBI_TOKEN=$ACCESS_TOKEN" >> $GITHUB_ENV
+
+      - name: Step 1 - Sync Dev Workspace with Latest Git Changes
+        run: |
+          echo "Syncing Dev workspace with latest commits..."
+          STATUS_CODE=$(curl -s -o /dev/null -w "%{http_code}" -X POST \
+            -H "Authorization: Bearer ${{ env.PBI_TOKEN }}" \
+            -H "Content-Type: application/json" \
+            -d '{"remoteCommitHash": "${{ github.sha }}"}' \
+            "https://microsoft.com{{ env.DEV_WORKSPACE_ID }}/git/updateFromGit")
+          
+          if [ "$STATUS_CODE" -ne 200 ] && [ "$STATUS_CODE" -ne 202 ]; then
+            echo "Failed to update Dev workspace from Git. HTTP Status: $STATUS_CODE"
+            exit 1
+          fi
+          echo "Dev workspace sync initiated successfully."
+          sleep 20 # Gives Fabric an extra moment to render metadata shifts internally
+
+      - name: Step 2 - Trigger Pipeline Deployment to Prod
+        run: |
+          echo "Promoting content from Dev Stage to Prod Stage..."
+          RESPONSE=$(curl -s -X POST \
+            -H "Authorization: Bearer ${{ env.PBI_TOKEN }}" \
+            -H "Content-Type: application/json" \
+            -d '{
+                  "sourceStageOrder": 0, 
+                  "isAll": true,
+                  "note": "Automated deployment via GitHub Actions (Commit: ${{ github.sha }})"
+                }' \
+            "https://powerbi.com{{ env.PIPELINE_ID }}/deploy")
+          
+          echo "Pipeline response: $RESPONSE"
